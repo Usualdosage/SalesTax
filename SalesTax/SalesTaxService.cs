@@ -55,7 +55,7 @@ namespace SalesTax
         public async Task<TaxRatesByLocationResponse> CalculateSalesTaxByLocation(string zipCode)
         {
             string endpoint = _configuration["SalesTaxAPIs:SalesTaxForLocation:Value"];
-            
+
             if (!string.IsNullOrWhiteSpace(endpoint))
             {
                 try
@@ -78,7 +78,8 @@ namespace SalesTax
                 {
                     _logger.LogError(exc.Message, exc);
 
-                    return new TaxRatesByLocationResponse() {
+                    return new TaxRatesByLocationResponse()
+                    {
                         Success = false,
                         ErrorMessage = exc.ToString()
                     };
@@ -88,7 +89,7 @@ namespace SalesTax
             {
                 throw new ArgumentNullException(endpoint);
             }
-            
+
         }
 
         /// <summary>
@@ -114,6 +115,8 @@ namespace SalesTax
                     var resp = await _client.ExecutePostAsync(restRequest);
 
                     var response = JsonConvert.DeserializeObject<SalesTaxByOrderResponse>(resp.Content);
+
+                    response.Success = true;
 
                     return response;
                 }

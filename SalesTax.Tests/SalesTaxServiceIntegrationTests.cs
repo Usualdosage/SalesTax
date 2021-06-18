@@ -2,9 +2,7 @@
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using SalesTax.Contracts;
-using SalesTax.Requests;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -55,7 +53,7 @@ namespace SalesTax.Tests
             try
             {
                 // Arrange
-                var order = BuildOrderRequest();
+                var order = TestData.BuildOrderRequest();
 
                 // Act
                 var result = await _service.CalculateSalesTaxByOrder(order);
@@ -102,49 +100,5 @@ namespace SalesTax.Tests
 
 
         #endregion Test Methods
-
-        #region Private Methods
-
-        private OrderRequest BuildOrderRequest()
-        {
-            var request = new OrderRequest()
-            {
-                FromCountry = "US",
-                FromZip = "92093",
-                FromState = "CA",
-                FromCity = "La Jolla",
-                FromStreet = "9500 Gilman Drive",
-                ToCountry = "US",
-                ToZip = "92002",
-                ToState = "CA",
-                ToCity = "Los Angeles",
-                ToStreet = "1335 E 103rd St",
-                Amount = 15m,
-                Shipping = 1.5m,
-                NexusAddresses = new List<NexusAddress>() {
-                    new NexusAddress() {
-                        Id = "Main Location",
-                        Country = "US",
-                        Zip = "92023",
-                        State = "CA",
-                        City = "La Jolla",
-                        Street = "9500 Gilman Drive"
-                    }
-                },
-                LineItems = new List<LineItem>() {
-                    new LineItem() {
-                        Id="1",
-                        Quantity = 1m,
-                        ProductTaxCode = "20010",
-                        UnitPrice = 15m,
-                        Discount = 0m
-                    }
-                }
-            };
-
-            return request;
-        }
-
-        #endregion Private Methods
     }
 }
