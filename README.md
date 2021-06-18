@@ -4,7 +4,7 @@ This is a service that calculates sales tax for locations and by order using the
 Service consumption should be done through dependency injection using the `ISalesTaxService` interface.
 
 ## Unit Tests
-Contains both mock and integration tests to exercise the code. Mock tests do not call the actual API, whereas the integration tests do.
+Contains integration tests to exercise the code. Order is mocked based on API documentation.
 
 ## Dependencies
 
