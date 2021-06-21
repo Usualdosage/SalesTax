@@ -39,7 +39,6 @@ namespace SalesTax
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
             _apiKey = _configuration["SalesTaxAPIs:APIKey:Value"];
         }
 
@@ -56,41 +55,34 @@ namespace SalesTax
         {
             string endpoint = _configuration["SalesTaxAPIs:SalesTaxForLocation:Value"];
 
-            if (!string.IsNullOrWhiteSpace(endpoint))
+            try
             {
-                try
-                {
-                    _client = new RestClient($"{endpoint}/{zipCode}");
+                _client = new RestClient($"{endpoint}/{zipCode}");
 
-                    var restRequest = new RestRequest();
-                    restRequest.AddHeader("Authorization", string.Format("Bearer {0}", _apiKey));
-                    restRequest.AddHeader("Content-Type", "application/json");
+                var restRequest = new RestRequest();
+                restRequest.AddHeader("Authorization", string.Format("Bearer {0}", _apiKey));
+                restRequest.AddHeader("Content-Type", "application/json");
 
-                    var resp = await _client.ExecuteGetAsync(restRequest);
+                var resp = await _client.ExecuteGetAsync(restRequest);
 
-                    var response = JsonConvert.DeserializeObject<TaxRatesByLocationResponse>(resp.Content);
+                var response = JsonConvert.DeserializeObject<TaxRatesByLocationResponse>(resp.Content);
 
-                    response.Success = true;
+                response.Success = true;
 
-                    return response;
-                }
-                catch (Exception exc)
-                {
-                    _logger.LogError(exc.Message, exc);
-
-                    return new TaxRatesByLocationResponse()
-                    {
-                        Success = false,
-                        ErrorMessage = exc.ToString()
-                    };
-                }
+                return response;
             }
-            else
+            catch (Exception exc)
             {
-                throw new ArgumentNullException(endpoint);
-            }
+                _logger.LogError(exc.Message, exc);
 
+                return new TaxRatesByLocationResponse()
+                {
+                    Success = false,
+                    ErrorMessage = exc.ToString()
+                };
+            }
         }
+
 
         /// <summary>
         /// Calculates the sales tax for an order with multiple addresses and/or line items.
@@ -101,39 +93,33 @@ namespace SalesTax
         {
             string endpoint = _configuration["SalesTaxAPIs:SalesTaxForOrder:Value"];
 
-            if (!string.IsNullOrWhiteSpace(endpoint))
+
+            try
             {
-                try
-                {
-                    _client = new RestClient($"{endpoint}");
+                _client = new RestClient($"{endpoint}");
 
-                    var restRequest = new RestRequest(endpoint);
-                    restRequest.AddHeader("Authorization", string.Format("Bearer {0}", _apiKey));
-                    restRequest.AddHeader("Content-Type", "application/json");
-                    restRequest.AddJsonBody(JsonConvert.SerializeObject(request));
+                var restRequest = new RestRequest(endpoint);
+                restRequest.AddHeader("Authorization", string.Format("Bearer {0}", _apiKey));
+                restRequest.AddHeader("Content-Type", "application/json");
+                restRequest.AddJsonBody(JsonConvert.SerializeObject(request));
 
-                    var resp = await _client.ExecutePostAsync(restRequest);
+                var resp = await _client.ExecutePostAsync(restRequest);
 
-                    var response = JsonConvert.DeserializeObject<SalesTaxByOrderResponse>(resp.Content);
+                var response = JsonConvert.DeserializeObject<SalesTaxByOrderResponse>(resp.Content);
 
-                    response.Success = true;
+                response.Success = true;
 
-                    return response;
-                }
-                catch (Exception exc)
-                {
-                    _logger.LogError(exc.Message, exc);
-
-                    return new SalesTaxByOrderResponse()
-                    {
-                        Success = false,
-                        ErrorMessage = exc.ToString()
-                    };
-                }
+                return response;
             }
-            else
+            catch (Exception exc)
             {
-                throw new ArgumentNullException(endpoint);
+                _logger.LogError(exc.Message, exc);
+
+                return new SalesTaxByOrderResponse()
+                {
+                    Success = false,
+                    ErrorMessage = exc.ToString()
+                };
             }
         }
 

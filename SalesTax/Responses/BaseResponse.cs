@@ -8,6 +8,6 @@ namespace SalesTax.Responses
 
         public string ErrorMessage { get; set; }
 
-        public static DateTime? ResponseDt { get => DateTime.UtcNow; }
+        public DateTime? ResponseDt { get => DateTime.UtcNow; }
     }
 }

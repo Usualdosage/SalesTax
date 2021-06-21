@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SalesTax.Requests;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SalesTax.Responses
 {
@@ -49,12 +50,6 @@ namespace SalesTax.Responses
 
             [JsonProperty("state")]
             public string State { get; set; }
-
-            [JsonProperty("county")]
-            public string County { get; set; }
-
-            [JsonProperty("city")]
-            public string City { get; set; }
         }
 
         public sealed class Breakdown
@@ -89,17 +84,16 @@ namespace SalesTax.Responses
             [JsonProperty("city_taxable_amount")]
             public decimal CityTaxableAmount { get; set; }
 
-            [JsonProperty("city_taxable_rate")]
+            [ExcludeFromCodeCoverage]
+            [JsonProperty("city_tax_rate")]
             public decimal CityTaxRate { get; set; }
 
-            [JsonProperty("city_taxable_collectable")]
+            [ExcludeFromCodeCoverage]
+            [JsonProperty("city_tax_collectable")]
             public decimal CityTaxCollectable { get; set; }
 
             [JsonProperty("special_district_taxable_amount")]
             public decimal SpecialDistrictTaxableAmount { get; set; }
-
-            [JsonProperty("special_district_tax_rate")]
-            public decimal SpecialDistrictTaxRate { get; set; }
 
             [JsonProperty("special_district_tax_collectable")]
             public decimal SpecialDistrictTaxCollectable { get; set; }
