@@ -11,3 +11,7 @@ Contains integration tests to exercise the code. Order is mocked based on API do
 * NUnit
 * Newtonsoft.Json
 * RestSharp
+
+## Class Diagram
+
+![UML Diagram](https://github.com/Usualdosage/SalesTax/blob/master/SalesTaxUML.png?raw=true)
