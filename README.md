@@ -5,10 +5,10 @@ Service consumption should be done through dependency injection using the `ISale
 
 ## Usage
 
-The service is designed for Dependency Injection, which can be configured in many ways. The SalesTaxService requires an injected IConfiguration and ILogger. In a class constructor, add the following:
+The service is designed for Dependency Injection, which can be configured in many ways. The SalesTaxService requires an injected IConfiguration and ILogger. In a class constructor, add something like the following:
 
 ```csharp
-private ISalesTaxService _service;
+private readonly ISalesTaxService _service;
 public void MyClass(ISalesTaxService service)
 {
     _service = service ?? throw new ArgumentNullException(nameof(service));
